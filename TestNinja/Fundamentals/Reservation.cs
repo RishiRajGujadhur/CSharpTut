@@ -2,23 +2,39 @@
 
 namespace TestNinja.Fundamentals
 {
-    public class Reservation
+    // Base class for reservations
+    public abstract class BaseReservation
     {
         public User MadeBy { get; set; }
 
-        public bool CanBeCancelledBy(User user)
+        public virtual async Task<bool> CanBeCancelledByAsync(User user)
         {
-            return (user.IsAdmin || MadeBy == user);
-        }
+            await Task.Delay(500);
 
-        public async Task<bool> CanBeCancelledByAsync(User user)
+            return user.IsAdmin;
+        }
+    }
+
+    // Reservation for standard users
+    public class UserReservation : BaseReservation
+    {
+        public override async Task<bool> CanBeCancelledByAsync(User user)
         {
-            // Simulate some async work like querying a database or an external service
-            await Task.Delay(1000);
+            await Task.Delay(500); // Simulate async work
 
-            return (user.IsAdmin || MadeBy == user);
+            return user.IsAdmin || MadeBy == user;
         }
+    }
 
+    public class AdminReservation : BaseReservation
+    {
+        // Overriding with different rules for admin reservations
+        public override async Task<bool> CanBeCancelledByAsync(User user)
+        {
+            await Task.Delay(500); 
+
+            return user.IsAdmin;
+        }
     }
 
     public class User
