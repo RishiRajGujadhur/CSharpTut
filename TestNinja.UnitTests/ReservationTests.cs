@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
 using TestNinja.Fundamentals;
 
 namespace TestNinja.UnitTests
@@ -18,5 +19,19 @@ namespace TestNinja.UnitTests
             // Assert
             Assert.IsTrue(result);
         }
+
+        [TestMethod]
+        public async Task CanbeCancelledByAsync_UserIsAdmin_ReturnsTrueAsync()
+        {
+            // Arrange
+            var reservation = new Reservation();
+
+            // Act
+            bool result = await reservation.CanBeCancelledByAsync(new User { IsAdmin = true });
+
+            // Assert
+            Assert.IsTrue(result);
+        }
+
     }
 }
