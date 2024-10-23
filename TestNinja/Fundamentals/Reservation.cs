@@ -1,4 +1,6 @@
-﻿namespace TestNinja.Fundamentals
+﻿using System.Threading.Tasks;
+
+namespace TestNinja.Fundamentals
 {
     public class Reservation
     {
@@ -8,7 +10,15 @@
         {
             return (user.IsAdmin || MadeBy == user);
         }
-        
+
+        public async Task<bool> CanBeCancelledByAsync(User user)
+        {
+            // Simulate some async work like querying a database or an external service
+            await Task.Delay(1000);
+
+            return (user.IsAdmin || MadeBy == user);
+        }
+
     }
 
     public class User
