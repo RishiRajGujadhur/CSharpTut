@@ -13,7 +13,7 @@ namespace TestNinja.UnitTests
             // Arrange
             var reservation = new AdminReservation();
 
-            // Act
+            //  Act
             bool result = await reservation.CanBeCancelledByAsync(new User { IsAdmin = true });
 
             // Assert
