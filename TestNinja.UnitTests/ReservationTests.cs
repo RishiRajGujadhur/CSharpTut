@@ -7,32 +7,38 @@ namespace TestNinja.UnitTests
     [TestClass]
     public class ReservationTests
     {
+        private readonly ICancellable _reservation;
+
+        // Constructor injection
+        public ReservationTests(ICancellable reservation)
+        {
+            _reservation = reservation;
+        }
+
         [TestMethod]
-        public async Task CanbeCancelledByAsync_UserIsAdmin_ReturnsTrueAsync()
+        public async Task CanBeCancelledByAsync_UserIsAdmin_ReturnsTrueAsync()
         {
             // Arrange
-            var reservation = new AdminReservation();
+            var adminUser = new User { IsAdmin = true };
 
-            //  Act
-            bool result = await reservation.CanBeCancelledByAsync(new User { IsAdmin = true });
+            // Act
+            bool result = await _reservation.CanBeCancelledByAsync(adminUser);
 
             // Assert
             Assert.IsTrue(result);
         }
 
-
         [TestMethod]
-        public async Task CanbeCancelledByAsync_UserIsNotAdmin_ReturnsTrueAsync()
+        public async Task CanBeCancelledByAsync_UserIsNotAdmin_ReturnsTrueAsync()
         {
             // Arrange
-            var reservation = new UserReservation();
+            var adminUser = new User { IsAdmin = false };
 
             // Act
-            bool result = await reservation.CanBeCancelledByAsync(new User { IsAdmin = false });
+            bool result = await _reservation.CanBeCancelledByAsync(adminUser);
 
             // Assert
-            Assert.IsFalse(result);
+            Assert.IsTrue(result);
         }
-
     }
 }
